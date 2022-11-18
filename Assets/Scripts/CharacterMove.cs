@@ -27,6 +27,12 @@ public class CharacterMove : MonoBehaviour
         m_Rigidbody = GetComponent<Rigidbody>();
     }
 
+    void Update()
+    {
+        //Freeze all rotations
+        m_Rigidbody.constraints = RigidbodyConstraints.FreezeRotation;
+    }
+
     void FixedUpdate()
     {
         if (isAlmostZero(m_Rigidbody.velocity))
