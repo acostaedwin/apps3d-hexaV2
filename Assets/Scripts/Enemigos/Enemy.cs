@@ -4,15 +4,19 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    public float velocidad;
+    public float minSpeed;
+
+    public float maxSpeed;
+
+    private float speed;
 
     void Start()
     {
-        if (velocidad == -1) velocidad = Random.Range(2f, 10f);
+        speed = Random.Range(minSpeed, maxSpeed);
     }
 
     void Update()
     {
-        transform.Translate(0, 0, velocidad * Time.deltaTime);
+        transform.Translate(0, 0, speed * Time.deltaTime);
     }
 }

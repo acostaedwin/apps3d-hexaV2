@@ -9,8 +9,7 @@ public class Retorno : MonoBehaviour
     {
         if (other.CompareTag("enemy"))
         {
-            other.transform.Translate(0, 0, -20);
+            other.transform.Translate(0, 0, -30);
         }
-
     }
 }

@@ -9,6 +9,10 @@ public class CharacterColliderHandle : MonoBehaviour
 
     public AudioSource waterSplashSound;
 
+    public AudioSource ouchSound;
+
+    public AudioSource coinCollectedSound;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -17,6 +21,17 @@ public class CharacterColliderHandle : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "token")
+        {
+            other.gameObject.SetActive(false);
+            playSound (coinCollectedSound);
+        }
+        // Debug.Log("other.tag: " + other.tag);
+        // Debug.Log("other.gameObject: " + other.gameObject.tag);
     }
 
     void OnCollisionEnter(Collision collision)
@@ -29,19 +44,35 @@ public class CharacterColliderHandle : MonoBehaviour
         {
             StartCoroutine(WaterCoroutine());
         }
-        else if (collision.gameObject.tag == "Untagged")
+        if (collision.gameObject.tag == "hell")
+        {
+            StartCoroutine(OutOfMapCoroutine());
+        }
+        else if (
+            collision.gameObject.tag == "Untagged" ||
+            collision.gameObject.tag == "fieldOfPlay"
+        )
         {
         }
         else
         {
             Debug.Log("Collision with: " + collision.gameObject.tag);
         }
-        Debug.Log("Name: " + collision.gameObject.name);
+        // Debug.Log("Name: " + collision.gameObject.name);
+    }
+
+    IEnumerator OutOfMapCoroutine()
+    {
+        playSound (ouchSound);
+
+        //wait for 1 second.
+        yield return new WaitForSeconds(1);
+        SceneManager.LoadScene("MapaN1");
     }
 
     IEnumerator CrashCoroutine()
     {
-        playCrashSound();
+        playSound (crashSound);
 
         //wait for 1 second.
         yield return new WaitForSeconds(1);
@@ -50,20 +81,15 @@ public class CharacterColliderHandle : MonoBehaviour
 
     IEnumerator WaterCoroutine()
     {
-        playWaterSplash();
+        playSound (waterSplashSound);
 
         //wait for 1 second.
         yield return new WaitForSeconds(1);
         SceneManager.LoadScene("MapaN1");
     }
 
-    private void playCrashSound()
+    private void playSound(AudioSource sound)
     {
-        if (crashSound != null) crashSound.Play();
-    }
-
-    private void playWaterSplash()
-    {
-        if (waterSplashSound != null) waterSplashSound.Play();
+        if (sound != null) sound.Play();
     }
 }
