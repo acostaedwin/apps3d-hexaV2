@@ -5,11 +5,6 @@ using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
-    public void Play()
-    {
-        SceneManager.LoadScene("MapaN1");
-    }
-
     public void Back()
     {
         SceneManager.LoadScene("Menu");

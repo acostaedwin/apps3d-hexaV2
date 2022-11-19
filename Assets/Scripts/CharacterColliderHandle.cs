@@ -13,9 +13,18 @@ public class CharacterColliderHandle : MonoBehaviour
 
     public AudioSource coinCollectedSound;
 
+    LevelController levelControllerScript;
+
     // Start is called before the first frame update
     void Start()
     {
+        // levelControllerScript =
+        //   GameObject.Find("GigaRobot").GetComponent<LevelController>();
+        levelControllerScript =
+            GameObject.FindObjectOfType(typeof (LevelController)) as
+            LevelController;
+        // Debug.Log("levelControllerScript: " + levelControllerScript.ToString());
+        // Debug.Log("levelControllerScript: " + levelControllerScript.tokensGoal);
     }
 
     // Update is called once per frame
@@ -25,12 +34,14 @@ public class CharacterColliderHandle : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
+        // Debug.Log("levelControllerScript: " + levelControllerScript.tokensGoal);
         if (other.gameObject.tag == "token")
         {
             other.gameObject.SetActive(false);
             playSound (coinCollectedSound);
+            levelControllerScript.tokenCollected();
         }
-        // Debug.Log("other.tag: " + other.tag);
+        // Debug.Log("other.tag: " + levelController.tokensGoal);
         // Debug.Log("other.gameObject: " + other.gameObject.tag);
     }
 
