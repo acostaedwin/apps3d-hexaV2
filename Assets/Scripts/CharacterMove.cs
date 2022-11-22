@@ -21,10 +21,13 @@ public class CharacterMove : MonoBehaviour
 
     private float dragDistance; //minimum distance for a swipe to be registered
 
+    public bool blockMovement;
+
     void Start()
     {
         //Fetch the Rigidbody from the GameObject with this script attached
         m_Rigidbody = GetComponent<Rigidbody>();
+        blockMovement = false;
     }
 
     void Update()
@@ -35,14 +38,17 @@ public class CharacterMove : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (isAlmostZero(m_Rigidbody.velocity))
+        if (!blockMovement)
         {
-            handleKeyboardEvents();
-            handleTouchEvents();
-        }
-        else
-        {
-            // Debug.Log("BAD VELOCITY: " + m_Rigidbody.velocity);
+            if (isAlmostZero(m_Rigidbody.velocity))
+            {
+                handleKeyboardEvents();
+                handleTouchEvents();
+            }
+            else
+            {
+                // Debug.Log("BAD VELOCITY: " + m_Rigidbody.velocity);
+            }
         }
     }
 

@@ -41,6 +41,11 @@ public class LevelController : MonoBehaviour
             tokensCollected + "/" + tokensGoal + " fichas";
     }
 
+    public string getTokenCounterText()
+    {
+        return tokensCollected + "/" + tokensGoal + " fichas";
+    }
+
     public void tokenCollected()
     {
         tokensCollected = tokensCollected + 1;

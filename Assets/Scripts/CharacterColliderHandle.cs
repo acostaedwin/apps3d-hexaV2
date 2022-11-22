@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -15,16 +16,20 @@ public class CharacterColliderHandle : MonoBehaviour
 
     LevelController levelControllerScript;
 
+    GameOverHandle gameOverHandleScript;
+
     // Start is called before the first frame update
     void Start()
     {
-        // levelControllerScript =
-        //   GameObject.Find("GigaRobot").GetComponent<LevelController>();
         levelControllerScript =
             GameObject.FindObjectOfType(typeof (LevelController)) as
             LevelController;
-        // Debug.Log("levelControllerScript: " + levelControllerScript.ToString());
-        // Debug.Log("levelControllerScript: " + levelControllerScript.tokensGoal);
+
+        gameOverHandleScript =
+            GameObject.FindObjectOfType(typeof (GameOverHandle)) as
+            GameOverHandle;
+        // Debug.Log(levelControllerScript == null);
+        // Debug.Log(gameOverHandleScript == null);
     }
 
     // Update is called once per frame
@@ -49,15 +54,24 @@ public class CharacterColliderHandle : MonoBehaviour
     {
         if (collision.gameObject.tag == "enemy")
         {
-            StartCoroutine(CrashCoroutine());
+            // StartCoroutine(CrashCoroutine());
+            playSound (crashSound);
+            gameOverHandleScript
+                .ShowGameOver(levelControllerScript.getTokenCounterText());
         }
         if (collision.gameObject.tag == "water")
         {
-            StartCoroutine(WaterCoroutine());
+            // StartCoroutine(WaterCoroutine());
+            playSound (waterSplashSound);
+            gameOverHandleScript
+                .ShowGameOver(levelControllerScript.getTokenCounterText());
         }
         if (collision.gameObject.tag == "hell")
         {
-            StartCoroutine(OutOfMapCoroutine());
+            playSound (ouchSound);
+            gameOverHandleScript
+                .ShowGameOver(levelControllerScript.getTokenCounterText());
+            // StartCoroutine(OutOfMapCoroutine());
         }
         else if (
             collision.gameObject.tag == "Untagged" ||
@@ -72,13 +86,17 @@ public class CharacterColliderHandle : MonoBehaviour
         // Debug.Log("Name: " + collision.gameObject.name);
     }
 
+    /*
     IEnumerator OutOfMapCoroutine()
     {
-        playSound (ouchSound);
-
         //wait for 1 second.
         yield return new WaitForSeconds(1);
-        SceneManager.LoadScene("MapaN1");
+
+        gameOverHandleScript
+            .ShowGameOver(levelControllerScript.getTokenCounterText());
+
+        // Debug.Log("===>" + levelControllerScript.getTokenCounterText());
+        //  SceneManager.LoadScene("MapaN1");
     }
 
     IEnumerator CrashCoroutine()
@@ -98,7 +116,7 @@ public class CharacterColliderHandle : MonoBehaviour
         yield return new WaitForSeconds(1);
         SceneManager.LoadScene("MapaN1");
     }
-
+    */
     private void playSound(AudioSource sound)
     {
         if (sound != null) sound.Play();
