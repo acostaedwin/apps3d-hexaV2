@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public class HandleEndOfVideo : MonoBehaviour
 {
+    public GameObject VideoTutorialObject;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -18,6 +20,7 @@ public class HandleEndOfVideo : MonoBehaviour
 
     public void StartCountDownVideo()
     {
+        // Debug.Log("VideoIntroObject: " + VideoIntroObject == null);
         StartCoroutine(WaitForTheEndOfVideo(16));
     }
 
@@ -25,6 +28,10 @@ public class HandleEndOfVideo : MonoBehaviour
     {
         //waiting...
         yield return new WaitForSeconds(seconds);
-        SceneManager.LoadScene("MapaN1");
+
+        // SceneManager.LoadScene("MapaN1");
+        GameObject VideoIntroObject = GameObject.Find("VideoIntro");
+        VideoIntroObject.SetActive(false);
+        VideoTutorialObject.SetActive(true);
     }
 }
