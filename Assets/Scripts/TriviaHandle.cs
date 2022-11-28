@@ -86,6 +86,11 @@ public class TriviaHandle : MonoBehaviour
 
     IEnumerator restartScene()
     {
+        if (GameInformationData.currentLevel > 0)
+        {
+            GameInformationData.currentLevel--;
+        }
+
         //waiting...
         yield return new WaitForSeconds(1);
         SceneManager.LoadScene("MapaN1");
@@ -93,6 +98,8 @@ public class TriviaHandle : MonoBehaviour
 
     IEnumerator nextLevel()
     {
+        GameInformationData.currentLevel++;
+
         //waiting...
         yield return new WaitForSeconds(1);
         SceneManager.LoadScene("MapaN1");

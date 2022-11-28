@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class CharacterMove : MonoBehaviour
 {
@@ -23,6 +24,8 @@ public class CharacterMove : MonoBehaviour
 
     public bool blockMovement;
 
+    float lastTimeClick;
+
     void Start()
     {
         //Fetch the Rigidbody from the GameObject with this script attached
@@ -34,6 +37,26 @@ public class CharacterMove : MonoBehaviour
     {
         //Freeze all rotations
         m_Rigidbody.constraints = RigidbodyConstraints.FreezeRotation;
+
+        /*
+        if (Input.GetTouch(0).tapCount == 2)
+        {
+            Time.timeScale = 0;
+        }
+        */
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        float currentTimeClick = eventData.clickTime;
+
+        if (Mathf.Abs(currentTimeClick - lastTimeClick) < 0.75f)
+        {
+            //double-click happened
+            Debug.Log("double click");
+        }
+
+        lastTimeClick = currentTimeClick;
     }
 
     void FixedUpdate()

@@ -8,20 +8,29 @@ public class LevelController : MonoBehaviour
 {
     private GameObject tokenCounterText;
 
-    public int tokensGoal;
+    private int tokensGoal;
 
     private int tokensCollected;
+
+    private int startTokensGoal = 3;
 
     // Start is called before the first frame update
     void Start()
     {
-        if (tokensGoal == 0)
+        if (GameInformationData.currentLevel == 0)
         {
-            tokensGoal = 5;
+            tokensGoal = startTokensGoal;
         }
+        else
+        {
+            tokensGoal = startTokensGoal + GameInformationData.currentLevel * 2;
+        }
+
         tokensCollected = 0;
         tokenCounterText = GameObject.Find("TokensCounter");
         updateTokenCounter();
+
+        Debug.Log("---> " + GameInformationData.currentLevel);
     }
 
     // Update is called once per frame
@@ -37,8 +46,14 @@ public class LevelController : MonoBehaviour
 
     void updateTokenCounter()
     {
-        tokenCounterText.GetComponent<TextMeshPro>().text =
-            tokensCollected + "/" + tokensGoal + " fichas";
+        tokenCounterText.GetComponent<TextMeshProUGUI>().text =
+            "Nivel " +
+            (GameInformationData.currentLevel + 1) +
+            " - " +
+            tokensCollected +
+            "/" +
+            tokensGoal +
+            " fichas";
     }
 
     public string getTokenCounterText()

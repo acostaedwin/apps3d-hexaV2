@@ -16,6 +16,12 @@ public class HandleEndOfVideo : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (IsDoubleTap())
+        {
+            GameObject VideoIntroObject = GameObject.Find("VideoIntro");
+            VideoIntroObject.SetActive(false);
+            VideoTutorialObject.SetActive(true);
+        }
     }
 
     public void StartCountDownVideo()
@@ -33,5 +39,21 @@ public class HandleEndOfVideo : MonoBehaviour
         GameObject VideoIntroObject = GameObject.Find("VideoIntro");
         VideoIntroObject.SetActive(false);
         VideoTutorialObject.SetActive(true);
+    }
+
+    public static bool IsDoubleTap()
+    {
+        try
+        {
+            if (Input.GetTouch(0).tapCount == 2)
+            {
+                return true;
+            }
+            return false;
+        }
+        catch (System.Exception)
+        {
+            return false;
+        }
     }
 }

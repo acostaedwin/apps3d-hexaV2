@@ -6,12 +6,24 @@ public class TokenGenerator : MonoBehaviour
 {
     public GameObject tokenModel;
 
-    public int amountOfTokens;
+    private int amountOfTokens;
+
+    private int startAmountOfTokens = 8;
+
+    private Vector3 minRange = new Vector3(10.48642f, -1f, 0.637f);
+
+    private Vector3 maxRange = new Vector3(23.10193f, 1f, 51.9628f);
 
     // Start is called before the first frame update
     void Start()
     {
-        if (amountOfTokens == 0) amountOfTokens = 5;
+        if (GameInformationData.currentLevel == 0)
+            amountOfTokens = startAmountOfTokens;
+        else
+        {
+            amountOfTokens =
+                startAmountOfTokens + GameInformationData.currentLevel * 2;
+        }
         GenerateTokens();
     }
 
@@ -36,11 +48,21 @@ public class TokenGenerator : MonoBehaviour
             Transform child = transform.GetChild(numbers[i]);
 
             // Debug.Log("child: " + child.name);
-            Instantiate(tokenModel,
-            new Vector3(child.transform.position.x + 0.597f,
-                child.transform.position.y + 0.5f,
-                child.transform.position.z + 0.9221f),
-            child.transform.localRotation);
+            Vector3 newPosition =
+                new Vector3(child.transform.position.x + 0.597f,
+                    child.transform.position.y + 0.5f,
+                    child.transform.position.z + 0.9221f);
+            if (isVectorBetween(newPosition, minRange, maxRange))
+            {
+                Instantiate(tokenModel, newPosition, Quaternion.identity);
+            }
+            else
+            {
+                Instantiate(tokenModel,
+                getRandomVector3(minRange, maxRange),
+                Quaternion.identity);
+            }
+            // Instantiate(tokenModel, newPosition, child.transform.localRotation);
         }
 
         /*
@@ -76,5 +98,22 @@ public class TokenGenerator : MonoBehaviour
             }
         }
         return randomNumber;
+    }
+
+    private bool isVectorBetween(Vector3 vector, Vector3 min, Vector3 max)
+    {
+        return vector.x >= min.x &&
+        vector.x <= max.x &&
+        vector.y >= min.y &&
+        vector.y <= max.y &&
+        vector.z >= min.z &&
+        vector.z <= max.z;
+    }
+
+    private Vector3 getRandomVector3(Vector3 min, Vector3 max)
+    {
+        return new Vector3(Random.Range(min.x, max.x),
+            0.8f,
+            Random.Range(min.z, max.z));
     }
 }
